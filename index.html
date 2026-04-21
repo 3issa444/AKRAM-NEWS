@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نشرة أخبار - السيجارة الإلكترونية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0f;
+    font-family: 'Cairo', sans-serif;
+    color: white;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .screen {
+    width: 960px;
+    height: 540px;
+    position: relative;
+    background: linear-gradient(160deg, #0d1b2e 0%, #071018 60%, #0a0a0f 100%);
+    overflow: hidden;
+    border: 2px solid #1a3a5c;
+    box-shadow: 0 0 80px rgba(0,120,255,0.15);
+  }
+
+  /* BG grid */
+  .grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,100,200,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,100,200,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Glowing orbs */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.18;
+  }
+  .orb1 { width: 300px; height: 300px; background: #0055ff; top: -80px; right: -60px; }
+  .orb2 { width: 200px; height: 200px; background: #cc0000; bottom: -60px; left: -40px; }
+
+  /* TOP BAR */
+  .top-bar {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 52px;
+    background: linear-gradient(90deg, #b80000, #e00000, #b80000);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px;
+    animation: slideDown 0.8s ease forwards;
+    z-index: 10;
+  }
+  @keyframes slideDown { from { transform: translateY(-100%); opacity:0; } to { transform: translateY(0); opacity:1; } }
+
+  .channel-name {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: white;
+    text-shadow: 0 0 20px rgba(255,255,255,0.5);
+  }
+  .live-badge {
+    background: white;
+    color: #cc0000;
+    font-weight: 900;
+    font-size: 13px;
+    padding: 4px 12px;
+    border-radius: 4px;
+    animation: pulse 1.5s infinite;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .live-dot { width: 8px; height: 8px; background: #cc0000; border-radius: 50%; animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+
+  .datetime {
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  /* MAIN HEADLINE */
+  .headline-box {
+    position: absolute;
+    top: 72px; right: 24px;
+    width: 55%;
+    animation: fadeSlideIn 1s 0.6s ease both;
+  }
+  @keyframes fadeSlideIn { from { opacity:0; transform: translateX(30px); } to { opacity:1; transform: translateX(0); } }
+
+  .category-tag {
+    display: inline-block;
+    background: #e00000;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 3px;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+
+  .main-headline {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 900;
+    font-size: 28px;
+    line-height: 1.4;
+    color: white;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+    margin-bottom: 16px;
+  }
+
+  .sub-headline {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.8;
+    border-right: 3px solid #e00000;
+    padding-right: 12px;
+  }
+
+  /* STATS PANEL */
+  .stats-panel {
+    position: absolute;
+    top: 72px; left: 24px;
+    width: 38%;
+    display: flex; flex-direction: column; gap: 10px;
+    animation: fadeSlideIn2 1s 1s ease both;
+  }
+  @keyframes fadeSlideIn2 { from { opacity:0; transform: translateX(-30px); } to { opacity:1; transform: translateX(0); } }
+
+  .stat-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-right: 3px solid #e00000;
+    border-radius: 6px;
+    padding: 10px 14px;
+    backdrop-filter: blur(10px);
+  }
+  .stat-number {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 900;
+    font-size: 26px;
+    color: #ff4444;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 2px;
+  }
+
+  /* VAPE ICON */
+  .vape-icon {
+    position: absolute;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: fadeSlideIn2 1s 1.4s ease both;
+    text-align: center;
+  }
+  .vape-svg { opacity: 0.15; }
+  .smoke-particles {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .smoke {
+    position: absolute;
+    width: 8px; height: 8px;
+    background: rgba(150,200,255,0.4);
+    border-radius: 50%;
+    animation: smokeRise 3s infinite ease-out;
+    bottom: 0;
+  }
+  .smoke:nth-child(1) { left: -10px; animation-delay: 0s; }
+  .smoke:nth-child(2) { left: 0px; animation-delay: 0.6s; width:12px; height:12px; }
+  .smoke:nth-child(3) { left: 10px; animation-delay: 1.2s; }
+  @keyframes smokeRise {
+    0% { transform: translateY(0) scale(1); opacity:0.5; }
+    100% { transform: translateY(-60px) scale(3); opacity:0; }
+  }
+
+  /* BOTTOM TICKER */
+  .ticker-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 48px;
+    background: #0d1b2e;
+    border-top: 3px solid #e00000;
+    display: flex; align-items: center;
+    overflow: hidden;
+    animation: slideUp 0.8s 0.3s ease both;
+  }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+  .ticker-label {
+    background: #e00000;
+    color: white;
+    font-weight: 900;
+    font-size: 14px;
+    padding: 0 18px;
+    height: 100%;
+    display: flex; align-items: center;
+    white-space: nowrap;
+    flex-shrink: 0;
+    z-index: 2;
+    letter-spacing: 1px;
+  }
+
+  .ticker-content {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+  }
+  .ticker-track {
+    display: flex;
+    white-space: nowrap;
+    animation: tickerScroll 25s linear infinite;
+    font-size: 14px;
+    color: rgba(255,255,255,0.85);
+    gap: 60px;
+  }
+  @keyframes tickerScroll {
+    from { transform: translateX(100%); }
+    to { transform: translateX(-100%); }
+  }
+  .ticker-sep { color: #e00000; font-weight: 900; }
+
+  /* DIVIDER */
+  .divider-line {
+    position: absolute;
+    top: 68px;
+    left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #e00000, #0055ff, transparent);
+    animation: fadeSlideIn 0.5s 0.5s ease both;
+    opacity: 0;
+  }
+
+  /* LOGO CORNER */
+  .logo-corner {
+    position: absolute;
+    top: 64px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px; height: 60px;
+    background: rgba(224,0,0,0.15);
+    border: 2px solid rgba(224,0,0,0.4);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    animation: fadeIn 1s 1.5s ease both;
+    opacity: 0;
+  }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+  /* REPORTER */
+  .reporter-tag {
+    position: absolute;
+    bottom: 60px; right: 24px;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    animation: fadeIn 1s 2s ease both;
+    opacity: 0;
+  }
+  .reporter-name { font-weight: 700; color: white; }
+
+  /* breaking news band */
+  .breaking-band {
+    position: absolute;
+    top: 52px; left: 0; right: 0;
+    height: 16px;
+    background: repeating-linear-gradient(
+      -45deg,
+      #e00000,
+      #e00000 8px,
+      #b80000 8px,
+      #b80000 16px
+    );
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+<div class="screen">
+  <div class="grid-bg"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+
+  <div class="top-bar">
+    <div class="channel-name">📡 AKRAM NEWS</div>
+    <div class="live-badge"><span class="live-dot"></span> مباشر</div>
+    <div class="datetime" id="clock">الثلاثاء — نيسان ٢٠٢٦</div>
+  </div>
+
+  <div class="breaking-band"></div>
+  <div class="divider-line"></div>
+
+  <!-- HEADLINE -->
+  <div class="headline-box">
+    <div class="category-tag">🚨 تحقيق خاص</div>
+    <div class="main-headline">السيجارة الإلكترونية:<br>خطر يتصاعد بين المراهقين</div>
+    <div class="sub-headline">
+      دراسات حديثة تكشف أن الفيب يحتوي على مواد كيميائية خطيرة<br>
+      تُسبب إدمانًا شديدًا وأضرارًا بالغة على الرئتين والجهاز العصبي
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-panel">
+    <div class="stat-card">
+      <div class="stat-number">38%</div>
+      <div class="stat-label">من المراهقين جربوا الفيب مرة واحدة على الأقل</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">250+</div>
+      <div class="stat-label">مادة كيميائية ضارة في بخار السيجارة الإلكترونية</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">7×</div>
+      <div class="stat-label">احتمالية الإدمان على النيكوتين مقارنةً بالبالغين</div>
+    </div>
+  </div>
+
+  <!-- CENTER ICON -->
+  <div class="logo-corner">🫁</div>
+
+  <div class="smoke-particles">
+    <div class="smoke"></div>
+    <div class="smoke"></div>
+    <div class="smoke"></div>
+  </div>
+
+  <!-- REPORTER -->
+  <div class="reporter-tag">
+    تغطية: <span class="reporter-name">أكرم</span>
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker-bar">
+    <div class="ticker-label">⚡ عاجل</div>
+    <div class="ticker-content">
+      <div class="ticker-track">
+        الفيب ليس بديلًا آمنًا للتدخين العادي
+        <span class="ticker-sep">◆</span>
+        منظمة الصحة العالمية تحذر من تصاعد استخدام الفيب في صفوف الشباب
+        <span class="ticker-sep">◆</span>
+        النيكوتين في الفيب يؤثر على نمو دماغ المراهق بشكل مباشر
+        <span class="ticker-sep">◆</span>
+        الدول العربية تشدد القوانين لمنع بيع الفيب للقاصرين
+        <span class="ticker-sep">◆</span>
+        أعراض الإدمان تظهر خلال أسابيع قليلة من الاستخدام
+        <span class="ticker-sep">◆</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function updateClock() {
+    const now = new Date();
+    const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+    const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+    const h = String(now.getHours()).padStart(2,'0');
+    const m = String(now.getMinutes()).padStart(2,'0');
+    const s = String(now.getSeconds()).padStart(2,'0');
+    document.getElementById('clock').textContent =
+      `${days[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]} — ${h}:${m}:${s}`;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+</script>
+</body>
+</html>
