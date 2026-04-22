@@ -3,386 +3,1039 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>نشرة أخبار - السيجارة الإلكترونية</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<title>AKRAM NEWS | نشرة خاصة: الفيب</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --red: #c0392b;
+    --dark-red: #922b21;
+    --gold: #f39c12;
+    --dark: #0a0a0f;
+    --dark2: #12121a;
+    --dark3: #1a1a2e;
+    --text: #f0ece3;
+    --muted: #8a8a9a;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: #0a0a0f;
     font-family: 'Cairo', sans-serif;
-    color: white;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== BREAKING TICKER ===== */
+  .ticker-bar {
+    background: var(--red);
+    padding: 8px 0;
     overflow: hidden;
-    width: 100vw;
-    height: 100vh;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--gold);
+  }
+  .ticker-label {
+    background: var(--gold);
+    color: #000;
+    font-weight: 900;
+    padding: 2px 16px;
+    font-size: 13px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
-  }
-
-  .screen {
-    width: 960px;
-    height: 540px;
-    position: relative;
-    background: linear-gradient(160deg, #0d1b2e 0%, #071018 60%, #0a0a0f 100%);
-    overflow: hidden;
-    border: 2px solid #1a3a5c;
-    box-shadow: 0 0 80px rgba(0,120,255,0.15);
-  }
-
-  /* BG grid */
-  .grid-bg {
-    position: absolute; inset: 0;
-    background-image:
-      linear-gradient(rgba(0,100,200,0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,100,200,0.06) 1px, transparent 1px);
-    background-size: 40px 40px;
-  }
-
-  /* Glowing orbs */
-  .orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.18;
-  }
-  .orb1 { width: 300px; height: 300px; background: #0055ff; top: -80px; right: -60px; }
-  .orb2 { width: 200px; height: 200px; background: #cc0000; bottom: -60px; left: -40px; }
-
-  /* TOP BAR */
-  .top-bar {
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 52px;
-    background: linear-gradient(90deg, #b80000, #e00000, #b80000);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 24px;
-    animation: slideDown 0.8s ease forwards;
-    z-index: 10;
-  }
-  @keyframes slideDown { from { transform: translateY(-100%); opacity:0; } to { transform: translateY(0); opacity:1; } }
-
-  .channel-name {
-    font-family: 'Tajawal', sans-serif;
-    font-weight: 900;
-    font-size: 22px;
-    letter-spacing: 2px;
-    color: white;
-    text-shadow: 0 0 20px rgba(255,255,255,0.5);
-  }
-  .live-badge {
-    background: white;
-    color: #cc0000;
-    font-weight: 900;
-    font-size: 13px;
-    padding: 4px 12px;
-    border-radius: 4px;
-    animation: pulse 1.5s infinite;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .live-dot { width: 8px; height: 8px; background: #cc0000; border-radius: 50%; animation: pulse 1s infinite; }
-  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
-
-  .datetime {
-    font-size: 13px;
-    color: rgba(255,255,255,0.85);
-    font-weight: 600;
-    letter-spacing: 1px;
-  }
-
-  /* MAIN HEADLINE */
-  .headline-box {
-    position: absolute;
-    top: 72px; right: 24px;
-    width: 55%;
-    animation: fadeSlideIn 1s 0.6s ease both;
-  }
-  @keyframes fadeSlideIn { from { opacity:0; transform: translateX(30px); } to { opacity:1; transform: translateX(0); } }
-
-  .category-tag {
-    display: inline-block;
-    background: #e00000;
-    color: white;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 4px 14px;
-    border-radius: 3px;
-    margin-bottom: 12px;
-    letter-spacing: 1px;
-  }
-
-  .main-headline {
-    font-family: 'Tajawal', sans-serif;
-    font-weight: 900;
-    font-size: 28px;
-    line-height: 1.4;
-    color: white;
-    text-shadow: 0 2px 20px rgba(0,0,0,0.8);
-    margin-bottom: 16px;
-  }
-
-  .sub-headline {
-    font-size: 14px;
-    color: rgba(255,255,255,0.7);
-    line-height: 1.8;
-    border-right: 3px solid #e00000;
-    padding-right: 12px;
-  }
-
-  /* STATS PANEL */
-  .stats-panel {
-    position: absolute;
-    top: 72px; left: 24px;
-    width: 38%;
-    display: flex; flex-direction: column; gap: 10px;
-    animation: fadeSlideIn2 1s 1s ease both;
-  }
-  @keyframes fadeSlideIn2 { from { opacity:0; transform: translateX(-30px); } to { opacity:1; transform: translateX(0); } }
-
-  .stat-card {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-right: 3px solid #e00000;
-    border-radius: 6px;
-    padding: 10px 14px;
-    backdrop-filter: blur(10px);
-  }
-  .stat-number {
-    font-family: 'Tajawal', sans-serif;
-    font-weight: 900;
-    font-size: 26px;
-    color: #ff4444;
-    line-height: 1;
-  }
-  .stat-label {
-    font-size: 12px;
-    color: rgba(255,255,255,0.65);
-    margin-top: 2px;
-  }
-
-  /* VAPE ICON */
-  .vape-icon {
-    position: absolute;
-    bottom: 90px;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: fadeSlideIn2 1s 1.4s ease both;
-    text-align: center;
-  }
-  .vape-svg { opacity: 0.15; }
-  .smoke-particles {
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  .smoke {
-    position: absolute;
-    width: 8px; height: 8px;
-    background: rgba(150,200,255,0.4);
-    border-radius: 50%;
-    animation: smokeRise 3s infinite ease-out;
-    bottom: 0;
-  }
-  .smoke:nth-child(1) { left: -10px; animation-delay: 0s; }
-  .smoke:nth-child(2) { left: 0px; animation-delay: 0.6s; width:12px; height:12px; }
-  .smoke:nth-child(3) { left: 10px; animation-delay: 1.2s; }
-  @keyframes smokeRise {
-    0% { transform: translateY(0) scale(1); opacity:0.5; }
-    100% { transform: translateY(-60px) scale(3); opacity:0; }
-  }
-
-  /* BOTTOM TICKER */
-  .ticker-bar {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    height: 48px;
-    background: #0d1b2e;
-    border-top: 3px solid #e00000;
-    display: flex; align-items: center;
-    overflow: hidden;
-    animation: slideUp 0.8s 0.3s ease both;
-  }
-  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
-  .ticker-label {
-    background: #e00000;
-    color: white;
-    font-weight: 900;
-    font-size: 14px;
-    padding: 0 18px;
-    height: 100%;
-    display: flex; align-items: center;
-    white-space: nowrap;
-    flex-shrink: 0;
     z-index: 2;
     letter-spacing: 1px;
   }
-
-  .ticker-content {
-    flex: 1;
-    overflow: hidden;
-    position: relative;
-  }
   .ticker-track {
     display: flex;
-    white-space: nowrap;
-    animation: tickerScroll 25s linear infinite;
-    font-size: 14px;
-    color: rgba(255,255,255,0.85);
     gap: 60px;
+    animation: ticker 30s linear infinite;
+    white-space: nowrap;
+    padding-right: 200px;
   }
-  @keyframes tickerScroll {
-    from { transform: translateX(100%); }
+  .ticker-track span {
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0.95;
+  }
+  .ticker-track span::before {
+    content: "◆ ";
+    color: var(--gold);
+  }
+  @keyframes ticker {
+    from { transform: translateX(100vw); }
     to { transform: translateX(-100%); }
   }
-  .ticker-sep { color: #e00000; font-weight: 900; }
 
-  /* DIVIDER */
-  .divider-line {
-    position: absolute;
-    top: 68px;
-    left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #e00000, #0055ff, transparent);
-    animation: fadeSlideIn 0.5s 0.5s ease both;
-    opacity: 0;
+  /* ===== HEADER ===== */
+  .studio-header {
+    background: linear-gradient(135deg, var(--dark2), var(--dark3));
+    border-bottom: 1px solid #2a2a3e;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
   }
-
-  /* LOGO CORNER */
-  .logo-corner {
+  .studio-header::before {
+    content: '';
     position: absolute;
-    top: 64px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px; height: 60px;
-    background: rgba(224,0,0,0.15);
-    border: 2px solid rgba(224,0,0,0.4);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 24px;
-    animation: fadeIn 1s 1.5s ease both;
-    opacity: 0;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(192,57,43,0.08) 0%, transparent 70%);
   }
-  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-
-  /* REPORTER */
-  .reporter-tag {
-    position: absolute;
-    bottom: 60px; right: 24px;
-    background: rgba(0,0,0,0.6);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 6px;
-    padding: 6px 14px;
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .logo-icon {
+    width: 56px;
+    height: 56px;
+    background: var(--red);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    box-shadow: 0 0 20px rgba(192,57,43,0.5);
+    animation: pulse-logo 2s ease-in-out infinite;
+  }
+  @keyframes pulse-logo {
+    0%, 100% { box-shadow: 0 0 20px rgba(192,57,43,0.5); }
+    50% { box-shadow: 0 0 35px rgba(192,57,43,0.8); }
+  }
+  .logo-text h1 {
+    font-family: 'Amiri', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+  }
+  .logo-text p {
     font-size: 12px;
-    color: rgba(255,255,255,0.7);
-    animation: fadeIn 1s 2s ease both;
-    opacity: 0;
+    color: var(--gold);
+    letter-spacing: 2px;
+    margin-top: 4px;
   }
-  .reporter-name { font-weight: 700; color: white; }
+  .live-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--red);
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 2px;
+    box-shadow: 0 0 20px rgba(192,57,43,0.4);
+  }
+  .live-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--white);
+    border-radius: 50%;
+    animation: blink 1s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  .clock {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gold);
+    font-variant-numeric: tabular-nums;
+    direction: ltr;
+  }
 
-  /* breaking news band */
-  .breaking-band {
+  /* ===== MAIN LAYOUT ===== */
+  .main-content {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 0;
+    min-height: calc(100vh - 120px);
+  }
+
+  /* ===== CENTER STAGE ===== */
+  .center-stage {
+    padding: 30px 40px;
+    border-left: 1px solid #2a2a3e;
+  }
+
+  /* ===== NEWS SECTIONS ===== */
+  .section-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    background: var(--dark2);
+    border: 1px solid #2a2a3e;
+    color: var(--muted);
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.25s;
+  }
+  .tab-btn:hover {
+    border-color: var(--red);
+    color: var(--text);
+  }
+  .tab-btn.active {
+    background: var(--red);
+    border-color: var(--red);
+    color: var(--white);
+    box-shadow: 0 4px 15px rgba(192,57,43,0.4);
+  }
+
+  .news-section {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+  .news-section.active {
+    display: block;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== HEADLINE CARD ===== */
+  .headline-card {
+    background: linear-gradient(135deg, var(--dark2), var(--dark3));
+    border: 1px solid #2a2a3e;
+    border-right: 4px solid var(--red);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .headline-card:hover {
+    transform: translateX(-4px);
+    border-right-color: var(--gold);
+  }
+  .headline-card::after {
+    content: '';
     position: absolute;
-    top: 52px; left: 0; right: 0;
+    top: 0; right: 0;
+    width: 120px; height: 120px;
+    background: radial-gradient(ellipse, rgba(192,57,43,0.06) 0%, transparent 70%);
+  }
+  .card-category {
+    display: inline-block;
+    background: var(--red);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+  }
+  .card-title {
+    font-family: 'Amiri', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .card-body {
+    font-size: 15px;
+    color: #c5c0b5;
+    line-height: 1.9;
+  }
+  .card-body strong {
+    color: var(--gold);
+  }
+  .stat-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .stat-box {
+    background: rgba(192,57,43,0.12);
+    border: 1px solid rgba(192,57,43,0.3);
+    border-radius: 8px;
+    padding: 12px 20px;
+    text-align: center;
+    flex: 1;
+    min-width: 100px;
+  }
+  .stat-num {
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--red);
+    display: block;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* INFOGRAPHIC BAR */
+  .info-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0;
+  }
+  .info-bar-label {
+    font-size: 13px;
+    color: var(--muted);
+    min-width: 120px;
+    text-align: right;
+  }
+  .bar-track {
+    flex: 1;
+    height: 10px;
+    background: #2a2a3e;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    animation: barGrow 1.5s ease-out forwards;
+    width: 0;
+  }
+  @keyframes barGrow {
+    to { width: var(--w); }
+  }
+  .bar-pct {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold);
+    min-width: 40px;
+    text-align: left;
+    direction: ltr;
+  }
+
+  /* DANGER LIST */
+  .danger-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid #1e1e2a;
+  }
+  .danger-icon {
+    font-size: 22px;
+    min-width: 36px;
+    text-align: center;
+    margin-top: 2px;
+  }
+  .danger-text h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .danger-text p {
+    font-size: 14px;
+    color: #b0aaa0;
+    line-height: 1.7;
+  }
+
+  /* VERDICT CARD */
+  .verdict {
+    background: linear-gradient(135deg, rgba(192,57,43,0.15), rgba(192,57,43,0.05));
+    border: 2px solid var(--red);
+    border-radius: 14px;
+    padding: 24px;
+    margin-top: 16px;
+    text-align: center;
+  }
+  .verdict h3 {
+    font-family: 'Amiri', serif;
+    font-size: 26px;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .verdict p {
+    font-size: 15px;
+    color: #c5c0b5;
+    line-height: 1.8;
+  }
+
+  /* COMPARISON TABLE */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+  }
+  .compare-table th {
+    background: var(--red);
+    color: var(--white);
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .compare-table td {
+    padding: 12px 16px;
+    font-size: 14px;
+    border-bottom: 1px solid #2a2a3e;
+    text-align: center;
+    color: #c5c0b5;
+  }
+  .compare-table tr:nth-child(even) td {
+    background: rgba(255,255,255,0.02);
+  }
+  .compare-table td:first-child {
+    color: var(--white);
+    font-weight: 600;
+    text-align: right;
+  }
+  .bad { color: #e74c3c !important; font-weight: 700; }
+  .warn { color: var(--gold) !important; font-weight: 700; }
+  .good { color: #2ecc71 !important; font-weight: 700; }
+
+  /* LAW TIMELINE */
+  .timeline {
+    position: relative;
+    padding-right: 24px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    right: 8px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--red), transparent);
+  }
+  .timeline-item {
+    position: relative;
+    padding: 16px 30px 16px 0;
+    border-bottom: 1px solid #1e1e2a;
+  }
+  .timeline-dot {
+    position: absolute;
+    right: 0;
+    top: 20px;
+    width: 16px;
     height: 16px;
-    background: repeating-linear-gradient(
-      -45deg,
-      #e00000,
-      #e00000 8px,
-      #b80000 8px,
-      #b80000 16px
-    );
-    opacity: 0.7;
+    background: var(--red);
+    border-radius: 50%;
+    border: 3px solid var(--dark);
+  }
+  .timeline-year {
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .timeline-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .timeline-desc {
+    font-size: 14px;
+    color: #b0aaa0;
+    line-height: 1.7;
+  }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar {
+    background: var(--dark2);
+    padding: 24px 20px;
+    border-top: none;
+  }
+  .sidebar-title {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sidebar-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #2a2a3e;
+  }
+  .breaking-item {
+    padding: 14px 0;
+    border-bottom: 1px solid #1e1e2a;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .breaking-item:hover { padding-right: 6px; }
+  .breaking-item .bi-cat {
+    font-size: 10px;
+    color: var(--red);
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .breaking-item .bi-text {
+    font-size: 14px;
+    color: #c5c0b5;
+    line-height: 1.6;
+    font-weight: 600;
+  }
+  .breaking-item .bi-time {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* POLL */
+  .poll-box {
+    background: var(--dark3);
+    border: 1px solid #2a2a3e;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 24px;
+  }
+  .poll-q {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+  .poll-opt {
+    background: var(--dark2);
+    border: 1px solid #2a2a3e;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    width: 100%;
+    text-align: right;
+    transition: all 0.2s;
+  }
+  .poll-opt:hover {
+    border-color: var(--red);
+    background: rgba(192,57,43,0.08);
+  }
+  .poll-opt.voted {
+    border-color: var(--red);
+    background: rgba(192,57,43,0.15);
+    color: var(--white);
+  }
+  .poll-result {
+    display: none;
+    margin-top: 12px;
+  }
+  .poll-result.show { display: block; }
+  .pr-bar-wrap {
+    margin-bottom: 10px;
+  }
+  .pr-label {
+    font-size: 13px;
+    color: #c5c0b5;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .pr-track {
+    height: 8px;
+    background: #2a2a3e;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .pr-fill {
+    height: 100%;
+    background: var(--red);
+    border-radius: 8px;
+    transition: width 1s ease;
+  }
+
+  /* ===== FOOTER ===== */
+  .studio-footer {
+    background: var(--dark2);
+    border-top: 1px solid #2a2a3e;
+    padding: 16px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .footer-brand {
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  /* ===== PRESENTER ===== */
+  .presenter-bar {
+    background: linear-gradient(90deg, var(--dark3), var(--dark2));
+    border: 1px solid #2a2a3e;
+    border-radius: 12px;
+    padding: 18px 24px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .presenter-avatar {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, var(--red), var(--dark-red));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .presenter-info h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .presenter-info p {
+    font-size: 13px;
+    color: var(--gold);
+    margin-top: 2px;
+  }
+  .presenter-text {
+    font-size: 14px;
+    color: #c5c0b5;
+    line-height: 1.7;
+    font-style: italic;
+    flex: 1;
+  }
+
+  @media (max-width: 768px) {
+    .main-content { grid-template-columns: 1fr; }
+    .sidebar { border-top: 1px solid #2a2a3e; }
+    .studio-header { padding: 16px 20px; }
+    .center-stage { padding: 20px; }
   }
 </style>
 </head>
 <body>
-<div class="screen">
-  <div class="grid-bg"></div>
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
 
-  <div class="top-bar">
-    <div class="channel-name">📡 AKRAM NEWS</div>
-    <div class="live-badge"><span class="live-dot"></span> مباشر</div>
-    <div class="datetime" id="clock">الثلاثاء — نيسان ٢٠٢٦</div>
+<!-- TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-label">🔴 عاجل</div>
+  <div class="ticker-track">
+    <span>الفيب يحتوي على أكثر من 60 مادة كيميائية مضرة</span>
+    <span>منظمة الصحة العالمية تحذر من تزايد استخدام الفيب عند المراهقين</span>
+    <span>الفيب لا يُعدّ وسيلة آمنة للإقلاع عن التدخين</span>
+    <span>دراسات تثبت أن الفيب يسبب أمراضاً رئوية خطيرة</span>
+    <span>المغرب يدرس تشديد قوانين بيع منتجات النيكوتين للقاصرين</span>
+    <span>1 من كل 3 مراهقين جرّب الفيب على الأقل مرة واحدة</span>
   </div>
+</div>
 
-  <div class="breaking-band"></div>
-  <div class="divider-line"></div>
-
-  <!-- HEADLINE -->
-  <div class="headline-box">
-    <div class="category-tag">🚨 تحقيق خاص</div>
-    <div class="main-headline">السيجارة الإلكترونية:<br>خطر يتصاعد بين المراهقين</div>
-    <div class="sub-headline">
-      دراسات حديثة تكشف أن الفيب يحتوي على مواد كيميائية خطيرة<br>
-      تُسبب إدمانًا شديدًا وأضرارًا بالغة على الرئتين والجهاز العصبي
+<!-- HEADER -->
+<div class="studio-header">
+  <div class="logo-area">
+    <div class="logo-icon">📺</div>
+    <div class="logo-text">
+      <h1>AKRAM NEWS</h1>
+      <p>نشرة خاصة · الفيب والصحة العامة</p>
     </div>
   </div>
+  <div class="live-badge">
+    <div class="live-dot"></div>
+    مباشر
+  </div>
+  <div class="clock" id="clock">00:00:00</div>
+</div>
 
-  <!-- STATS -->
-  <div class="stats-panel">
-    <div class="stat-card">
-      <div class="stat-number">38%</div>
-      <div class="stat-label">من المراهقين جربوا الفيب مرة واحدة على الأقل</div>
+<!-- MAIN -->
+<div class="main-content">
+  <!-- CENTER -->
+  <div class="center-stage">
+
+    <!-- PRESENTER -->
+    <div class="presenter-bar">
+      <div class="presenter-avatar">🎙️</div>
+      <div class="presenter-info">
+        <h3>المراسل الخاص</h3>
+        <p>نشرة أخبار · الفيب في المغرب</p>
+      </div>
+      <div class="presenter-text">
+        "أيها المشاهدون، في نشرتنا الخاصة اليوم نستعرض حقيقة الفيب من جميع جوانبها — الصحية والقانونية والاجتماعية — بالأرقام والوقائع."
+      </div>
     </div>
-    <div class="stat-card">
-      <div class="stat-number">250+</div>
-      <div class="stat-label">مادة كيميائية ضارة في بخار السيجارة الإلكترونية</div>
+
+    <!-- TABS -->
+    <div class="section-tabs">
+      <button class="tab-btn active" onclick="showSection('health', this)">🫁 الأضرار الصحية</button>
+      <button class="tab-btn" onclick="showSection('youth', this)">👥 الشباب والفيب</button>
+      <button class="tab-btn" onclick="showSection('compare', this)">⚖️ فيب vs سيجارة</button>
+      <button class="tab-btn" onclick="showSection('law', this)">⚖️ القانون والمغرب</button>
     </div>
-    <div class="stat-card">
-      <div class="stat-number">7×</div>
-      <div class="stat-label">احتمالية الإدمان على النيكوتين مقارنةً بالبالغين</div>
+
+    <!-- SECTION 1: HEALTH -->
+    <div class="news-section active" id="sec-health">
+      <div class="headline-card">
+        <span class="card-category">🚨 صحة عامة</span>
+        <div class="card-title">الفيب: هل هو آمن فعلاً؟ العلم يجيب</div>
+        <div class="card-body">
+          الفيب أو السيجارة الإلكترونية هو جهاز يسخّن سائلاً يحتوي على <strong>نيكوتين ونكهات ومواد كيميائية</strong> لإنتاج بخار يُستنشق. رغم الاعتقاد الشائع بأنه "أقل ضرراً"، إلا أن الأبحاث العلمية أثبتت أضراراً جسيمة.
+        </div>
+        <div class="stat-row">
+          <div class="stat-box">
+            <span class="stat-num">60+</span>
+            <div class="stat-label">مادة كيميائية</div>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">%95</span>
+            <div class="stat-label">من المستخدمين يصابون بإدمان النيكوتين</div>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">2.5×</span>
+            <div class="stat-label">ضعف خطر الإصابة بأمراض الرئة</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="headline-card">
+        <span class="card-category">⚕️ الأضرار التفصيلية</span>
+        <div class="card-title">ماذا يفعل الفيب بجسمك؟</div>
+        <div class="danger-item">
+          <div class="danger-icon">🫁</div>
+          <div class="danger-text">
+            <h4>الرئتان</h4>
+            <p>استنشاق البخار يسبب التهابات مزمنة في الشعب الهوائية، وقد يؤدي إلى مرض EVALI (إصابة رئوية مرتبطة بالفيب) وهو مرض خطير قد يكون قاتلاً.</p>
+          </div>
+        </div>
+        <div class="danger-item">
+          <div class="danger-icon">🧠</div>
+          <div class="danger-text">
+            <h4>الدماغ والمراهقون</h4>
+            <p>النيكوتين يؤثر على تطور الدماغ لدى الشباب دون 25 سنة، مما يضعف التركيز والذاكرة ويرفع خطر الإدمان بشكل كبير.</p>
+          </div>
+        </div>
+        <div class="danger-item">
+          <div class="danger-icon">❤️</div>
+          <div class="danger-text">
+            <h4>القلب والأوعية الدموية</h4>
+            <p>النيكوتين يرفع ضغط الدم ومعدل نبضات القلب، ويزيد خطر الإصابة بأمراض القلب والسكتة الدماغية على المدى الطويل.</p>
+          </div>
+        </div>
+        <div class="danger-item">
+          <div class="danger-icon">🦷</div>
+          <div class="danger-text">
+            <h4>الفم والأسنان</h4>
+            <p>يسبب جفاف الفم والتهاب اللثة وتلوّن الأسنان، فضلاً عن تهيّج الحلق المستمر.</p>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- SECTION 2: YOUTH -->
+    <div class="news-section" id="sec-youth">
+      <div class="headline-card">
+        <span class="card-category">📊 إحصائيات</span>
+        <div class="card-title">الفيب والشباب: أرقام مقلقة</div>
+        <div class="card-body">
+          تشير الدراسات العالمية إلى أن استخدام الفيب بين المراهقين ارتفع بشكل مخيف خلال السنوات الأخيرة، بسبب <strong>النكهات الجذابة والتصاميم الأنيقة</strong> التي تستهدف الشباب.
+        </div>
+      </div>
+
+      <div class="headline-card">
+        <span class="card-category">📈 نسب الاستخدام</span>
+        <div class="card-title">من يستخدم الفيب؟</div>
+
+        <div class="info-bar">
+          <div class="info-bar-label">المراهقون (13-18)</div>
+          <div class="bar-track"><div class="bar-fill" style="--w:68%; background: #e74c3c;"></div></div>
+          <div class="bar-pct">68%</div>
+        </div>
+        <div class="info-bar">
+          <div class="info-bar-label">الشباب (18-25)</div>
+          <div class="bar-track"><div class="bar-fill" style="--w:82%; background: #e67e22;"></div></div>
+          <div class="bar-pct">82%</div>
+        </div>
+        <div class="info-bar">
+          <div class="info-bar-label">البالغون (25+)</div>
+          <div class="bar-track"><div class="bar-fill" style="--w:35%; background: #f39c12;"></div></div>
+          <div class="bar-pct">35%</div>
+        </div>
+        <div class="info-bar">
+          <div class="info-bar-label">مدخنون سابقون</div>
+          <div class="bar-track"><div class="bar-fill" style="--w:45%; background: #27ae60;"></div></div>
+          <div class="bar-pct">45%</div>
+        </div>
+      </div>
+
+      <div class="headline-card">
+        <span class="card-category">🎯 لماذا يجذب الشباب؟</span>
+        <div class="card-title">خطة التسويق الخفية</div>
+        <div class="danger-item">
+          <div class="danger-icon">🍓</div>
+          <div class="danger-text"><h4>نكهات مضللة</h4><p>فراولة، بطيخ، عصير مانجو — مصممة خصيصاً لاستهداف الشباب وإخفاء طعم النيكوتين.</p></div>
+        </div>
+        <div class="danger-item">
+          <div class="danger-icon">📱</div>
+          <div class="danger-text"><h4>تسويق عبر السوشيال ميديا</h4><p>الشركات تستخدم المؤثرين والإعلانات الملونة لاستهداف المراهقين مباشرة على إنستغرام وتيكتوك.</p></div>
+        </div>
+        <div class="danger-item">
+          <div class="danger-icon">💻</div>
+          <div class="danger-text"><h4>تصميم أنيق ومخفي</h4><p>شكل يشبه USB أو قلم — سهل الإخفاء عن الأهل والمدرسة مما يجعل الكشف صعباً.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: COMPARE -->
+    <div class="news-section" id="sec-compare">
+      <div class="headline-card">
+        <span class="card-category">⚖️ مقارنة</span>
+        <div class="card-title">الفيب مقابل السيجارة: أيهما أخطر؟</div>
+        <div class="card-body">
+          سؤال شائع جداً — لكن الجواب ليس بسيطاً. كلاهما خطير، والفرق في <strong>نوع الضرر وليس حجمه</strong>.
+        </div>
+
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>المعيار</th>
+              <th>🚬 السيجارة</th>
+              <th>💨 الفيب</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>النيكوتين</td>
+              <td class="bad">✔ نعم</td>
+              <td class="bad">✔ نعم (أحياناً أكثر)</td>
+            </tr>
+            <tr>
+              <td>دخان / بخار</td>
+              <td class="bad">دخان سام</td>
+              <td class="warn">بخار (ضار أيضاً)</td>
+            </tr>
+            <tr>
+              <td>سرطان الرئة</td>
+              <td class="bad">خطر مرتفع جداً</td>
+              <td class="warn">قيد الدراسة (محتمل)</td>
+            </tr>
+            <tr>
+              <td>أمراض القلب</td>
+              <td class="bad">خطر مرتفع</td>
+              <td class="bad">خطر مرتفع</td>
+            </tr>
+            <tr>
+              <td>أمراض الرئة الفورية</td>
+              <td class="warn">تدريجية</td>
+              <td class="bad">أسرع (EVALI)</td>
+            </tr>
+            <tr>
+              <td>الإدمان</td>
+              <td class="bad">إدمان شديد</td>
+              <td class="bad">إدمان شديد</td>
+            </tr>
+            <tr>
+              <td>الرائحة</td>
+              <td class="bad">نفاذة جداً</td>
+              <td class="warn">خفيفة (مضللة)</td>
+            </tr>
+            <tr>
+              <td>التكلفة</td>
+              <td class="warn">متوسطة</td>
+              <td class="bad">أغلى على المدى البعيد</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="verdict">
+        <h3>⚖️ حكم العلم</h3>
+        <p>الفيب ليس آمناً ولا هو "بديل صحي" — كلاهما يسبب الإدمان وأمراض خطيرة. الفرق الوحيد: الفيب أقل بحثاً لأنه أحدث، لكن الدراسات تتراكم وتثبت أضراره يوماً بعد يوم.</p>
+      </div>
+    </div>
+
+    <!-- SECTION 4: LAW -->
+    <div class="news-section" id="sec-law">
+      <div class="headline-card">
+        <span class="card-category">⚖️ القانون</span>
+        <div class="card-title">الفيب والقانون في المغرب والعالم</div>
+        <div class="card-body">
+          الوضع القانوني للفيب يختلف من دولة إلى أخرى، والمغرب في مرحلة تطوير تشريعاته لمواكبة هذه الظاهرة المتنامية.
+        </div>
+      </div>
+
+      <div class="headline-card">
+        <span class="card-category">🇲🇦 المغرب</span>
+        <div class="card-title">الوضع الراهن في المغرب</div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">الوضع الحالي</div>
+            <div class="timeline-title">بيع الفيب موجود لكن غير منظم بشكل كامل</div>
+            <div class="timeline-desc">يباع الفيب في محلات متخصصة وعبر الإنترنت دون رقابة صارمة على البيع للقاصرين في كثير من الأحيان.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">التوجه التشريعي</div>
+            <div class="timeline-title">مناقشات حول تشديد القوانين</div>
+            <div class="timeline-desc">السلطات المغربية تناقش تصنيف الفيب ضمن قوانين التبغ وتطبيق نفس القيود، خاصة منع البيع للقاصرين.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">المدارس</div>
+            <div class="timeline-title">الفيب ممنوع داخل المؤسسات التعليمية</div>
+            <div class="timeline-desc">يُعدّ استخدام الفيب داخل المدارس مخالفاً للنظام الداخلي وقد يُعرّض الطالب للعقوبة التأديبية.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="headline-card">
+        <span class="card-category">🌍 مقارنة دولية</span>
+        <div class="card-title">ماذا فعلت دول أخرى؟</div>
+        <div class="danger-item">
+          <div class="danger-icon">🇦🇺</div>
+          <div class="danger-text"><h4>أستراليا</h4><p>حظر كامل على الفيب الترفيهي — لا يُباع إلا بوصفة طبية للإقلاع عن التدخين.</p></div>
+        </div>
+        <div class="danger-item">
+          <div class="danger-icon">🇸🇦</div>
+          <div class="danger-text"><h4>السعودية</h4><p>مسموح به للبالغين فوق 18 سنة مع قيود صارمة على التسويق والأماكن العامة.</p></div>
+        </div>
+        <div class="danger-item">
+          <div class="danger-icon">🇫🇷</div>
+          <div class="danger-text"><h4>فرنسا</h4><p>قانون يحظر البيع لمن هم دون 18 سنة، ومنع الاستخدام في الأماكن العامة المغلقة.</p></div>
+        </div>
+        <div class="danger-item">
+          <div class="danger-icon">🇮🇳</div>
+          <div class="danger-text"><h4>الهند</h4><p>حظر شامل على إنتاج وبيع واستيراد جميع أنواع السجائر الإلكترونية.</p></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- CENTER ICON -->
-  <div class="logo-corner">🫁</div>
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-title">أخبار عاجلة</div>
 
-  <div class="smoke-particles">
-    <div class="smoke"></div>
-    <div class="smoke"></div>
-    <div class="smoke"></div>
-  </div>
+    <div class="breaking-item">
+      <div class="bi-cat">🔴 صحة</div>
+      <div class="bi-text">دراسة جديدة: الفيب يرفع خطر الإصابة بسرطان الفم بنسبة 40%</div>
+      <div class="bi-time">منذ 12 دقيقة</div>
+    </div>
+    <div class="breaking-item">
+      <div class="bi-cat">🟠 مجتمع</div>
+      <div class="bi-text">مدارس مغربية تطلق حملات توعية ضد الفيب في صفوف التلاميذ</div>
+      <div class="bi-time">منذ 28 دقيقة</div>
+    </div>
+    <div class="breaking-item">
+      <div class="bi-cat">🔴 تقرير</div>
+      <div class="bi-text">الفيب يحتوي على مادة الأكريلاميد المسببة للسرطان</div>
+      <div class="bi-time">منذ 45 دقيقة</div>
+    </div>
+    <div class="breaking-item">
+      <div class="bi-cat">🟡 قانون</div>
+      <div class="bi-text">اتحاد أوروبي يناقش حظر نكهات الفيب الموجهة للأطفال</div>
+      <div class="bi-time">منذ ساعة</div>
+    </div>
+    <div class="breaking-item">
+      <div class="bi-cat">🔴 إحصاء</div>
+      <div class="bi-text">مليون مراهق يبدأون استخدام الفيب سنوياً حول العالم</div>
+      <div class="bi-time">منذ ساعتين</div>
+    </div>
 
-  <!-- REPORTER -->
-  <div class="reporter-tag">
-    تغطية: <span class="reporter-name">أكرم</span>
-  </div>
+    <!-- POLL -->
+    <div class="poll-box">
+      <div class="poll-q">برأيك، هل يجب حظر الفيب كلياً في المغرب؟</div>
+      <button class="poll-opt" onclick="vote(this, 0)">نعم، يجب الحظر الكامل</button>
+      <button class="poll-opt" onclick="vote(this, 1)">لا، يكفي تنظيمه</button>
+      <button class="poll-opt" onclick="vote(this, 2)">لست متأكداً</button>
+      <div class="poll-result" id="poll-result">
+        <div class="pr-bar-wrap">
+          <div class="pr-label"><span>نعم، الحظر الكامل</span><span id="r0">62%</span></div>
+          <div class="pr-track"><div class="pr-fill" id="f0" style="width:0; background:#e74c3c;"></div></div>
+        </div>
+        <div class="pr-bar-wrap">
+          <div class="pr-label"><span>لا، يكفي تنظيمه</span><span id="r1">28%</span></div>
+          <div class="pr-track"><div class="pr-fill" id="f1" style="width:0; background:#e67e22;"></div></div>
+        </div>
+        <div class="pr-bar-wrap">
+          <div class="pr-label"><span>لست متأكداً</span><span id="r2">10%</span></div>
+          <div class="pr-track"><div class="pr-fill" id="f2" style="width:0; background:#95a5a6;"></div></div>
+        </div>
+      </div>
+    </div>
 
-  <!-- TICKER -->
-  <div class="ticker-bar">
-    <div class="ticker-label">⚡ عاجل</div>
-    <div class="ticker-content">
-      <div class="ticker-track">
-        الفيب ليس بديلًا آمنًا للتدخين العادي
-        <span class="ticker-sep">◆</span>
-        منظمة الصحة العالمية تحذر من تصاعد استخدام الفيب في صفوف الشباب
-        <span class="ticker-sep">◆</span>
-        النيكوتين في الفيب يؤثر على نمو دماغ المراهق بشكل مباشر
-        <span class="ticker-sep">◆</span>
-        الدول العربية تشدد القوانين لمنع بيع الفيب للقاصرين
-        <span class="ticker-sep">◆</span>
-        أعراض الإدمان تظهر خلال أسابيع قليلة من الاستخدام
-        <span class="ticker-sep">◆</span>
+    <div style="margin-top:20px;">
+      <div class="sidebar-title">حقيقة اليوم</div>
+      <div style="background:rgba(192,57,43,0.1); border:1px solid rgba(192,57,43,0.3); border-radius:10px; padding:16px; font-size:14px; color:#c5c0b5; line-height:1.8;">
+        💡 <strong style="color:var(--gold);">هل تعلم؟</strong><br>
+        جهاز فيب واحد قد يحتوي على نفس كمية النيكوتين الموجودة في <strong style="color:#e74c3c;">علبة سجائر كاملة</strong> أو أكثر.
       </div>
     </div>
   </div>
 </div>
 
+<!-- FOOTER -->
+<div class="studio-footer">
+  <div class="footer-brand">📺 AKRAM NEWS — مشروع تعليمي</div>
+  <div>جميع المعلومات مبنية على دراسات علمية معتمدة</div>
+  <div id="date-footer"></div>
+</div>
+
 <script>
+  // Clock
   function updateClock() {
     const now = new Date();
-    const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-    const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
     const h = String(now.getHours()).padStart(2,'0');
     const m = String(now.getMinutes()).padStart(2,'0');
     const s = String(now.getSeconds()).padStart(2,'0');
-    document.getElementById('clock').textContent =
-      `${days[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]} — ${h}:${m}:${s}`;
+    document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+    // Date footer
+    document.getElementById('date-footer').textContent = now.toLocaleDateString('ar-MA', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
   }
-  updateClock();
   setInterval(updateClock, 1000);
+  updateClock();
+
+  // Tabs
+  function showSection(id, btn) {
+    document.querySelectorAll('.news-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('sec-' + id).classList.add('active');
+    btn.classList.add('active');
+    // Retrigger bar animations
+    document.querySelectorAll('.bar-fill').forEach(b => {
+      b.style.width = '0';
+      setTimeout(() => { b.style.width = 'var(--w)'; }, 50);
+    });
+  }
+
+  // Poll
+  function vote(btn, idx) {
+    if (document.querySelector('.poll-opt.voted')) return;
+    btn.classList.add('voted');
+    document.querySelectorAll('.poll-opt').forEach(b => b.disabled = true);
+    const result = document.getElementById('poll-result');
+    result.classList.add('show');
+    const pcts = [62, 28, 10];
+    setTimeout(() => {
+      ['f0','f1','f2'].forEach((id, i) => {
+        document.getElementById(id).style.width = pcts[i] + '%';
+      });
+    }, 100);
+  }
 </script>
 </body>
 </html>
