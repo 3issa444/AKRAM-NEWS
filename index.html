@@ -1,21 +1,45 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AKRAM NEWS | نشرة خاصة: الفيب</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
+  /* ===== DARK MODE (default) ===== */
   :root {
-    --red: #c0392b;
-    --dark-red: #922b21;
-    --gold: #f39c12;
-    --dark: #0a0a0f;
-    --dark2: #12121a;
-    --dark3: #1a1a2e;
-    --text: #f0ece3;
-    --muted: #8a8a9a;
+    --accent: #2563eb;
+    --accent2: #1d4ed8;
+    --accent-glow: rgba(37,99,235,0.45);
+    --silver: #94a3b8;
+    --dark: #0b0f1a;
+    --dark2: #111827;
+    --dark3: #1a2235;
+    --text: #e2e8f0;
+    --muted: #64748b;
     --white: #ffffff;
+    --green: #10b981;
+    --blue: #3b82f6;
+    --orange: #f59e0b;
+    --border: #1e2a3a;
+    --subtext: #94a3b8;
+  }
+  [data-theme="light"] {
+    --accent: #1d4ed8;
+    --accent2: #1e40af;
+    --accent-glow: rgba(29,78,216,0.2);
+    --silver: #475569;
+    --dark: #f1f5f9;
+    --dark2: #ffffff;
+    --dark3: #dbeafe;
+    --text: #0f172a;
+    --muted: #64748b;
+    --white: #0f172a;
+    --green: #059669;
+    --blue: #2563eb;
+    --orange: #d97706;
+    --border: #cbd5e1;
+    --subtext: #475569;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,21 +50,22 @@
     color: var(--text);
     min-height: 100vh;
     overflow-x: hidden;
+    transition: background 0.35s, color 0.35s;
   }
 
   /* ===== BREAKING TICKER ===== */
   .ticker-bar {
-    background: var(--red);
+    background: var(--accent);
     padding: 8px 0;
     overflow: hidden;
     position: sticky;
     top: 0;
     z-index: 100;
-    border-bottom: 3px solid var(--gold);
+    border-bottom: 3px solid var(--silver);
   }
   .ticker-label {
-    background: var(--gold);
-    color: #000;
+    background: var(--silver);
+    color: var(--dark);
     font-weight: 900;
     padding: 2px 16px;
     font-size: 13px;
@@ -67,7 +92,7 @@
   }
   .ticker-track span::before {
     content: "◆ ";
-    color: var(--gold);
+    color: var(--accent);
   }
   @keyframes ticker {
     from { transform: translateX(100vw); }
@@ -77,7 +102,7 @@
   /* ===== HEADER ===== */
   .studio-header {
     background: linear-gradient(135deg, var(--dark2), var(--dark3));
-    border-bottom: 1px solid #2a2a3e;
+    border-bottom: 1px solid var(--border);
     padding: 20px 40px;
     display: flex;
     align-items: center;
@@ -89,7 +114,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 70% 50%, rgba(192,57,43,0.08) 0%, transparent 70%);
+    background: radial-gradient(ellipse at 70% 50%, rgba(37,99,235,0.35) 0%, transparent 70%);
   }
   .logo-area {
     display: flex;
@@ -99,18 +124,18 @@
   .logo-icon {
     width: 56px;
     height: 56px;
-    background: var(--red);
+    background: var(--accent);
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 26px;
-    box-shadow: 0 0 20px rgba(192,57,43,0.5);
+    box-shadow: 0 0 20px var(--accent-glow);
     animation: pulse-logo 2s ease-in-out infinite;
   }
   @keyframes pulse-logo {
-    0%, 100% { box-shadow: 0 0 20px rgba(192,57,43,0.5); }
-    50% { box-shadow: 0 0 35px rgba(192,57,43,0.8); }
+    0%, 100% { box-shadow: 0 0 20px var(--accent-glow); }
+    50% { box-shadow: 0 0 20px var(--accent-glow); }
   }
   .logo-text h1 {
     font-family: 'Amiri', serif;
@@ -121,7 +146,7 @@
   }
   .logo-text p {
     font-size: 12px;
-    color: var(--gold);
+    color: var(--accent);
     letter-spacing: 2px;
     margin-top: 4px;
   }
@@ -129,13 +154,13 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: var(--red);
+    background: var(--accent);
     padding: 8px 20px;
     border-radius: 6px;
     font-weight: 700;
     font-size: 14px;
     letter-spacing: 2px;
-    box-shadow: 0 0 20px rgba(192,57,43,0.4);
+    box-shadow: 0 0 20px var(--accent-glow);
   }
   .live-dot {
     width: 10px;
@@ -151,7 +176,7 @@
   .clock {
     font-size: 20px;
     font-weight: 700;
-    color: var(--gold);
+    color: var(--accent);
     font-variant-numeric: tabular-nums;
     direction: ltr;
   }
@@ -167,7 +192,7 @@
   /* ===== CENTER STAGE ===== */
   .center-stage {
     padding: 30px 40px;
-    border-left: 1px solid #2a2a3e;
+    border-left: 1px solid var(--border);
   }
 
   /* ===== NEWS SECTIONS ===== */
@@ -179,7 +204,7 @@
   }
   .tab-btn {
     background: var(--dark2);
-    border: 1px solid #2a2a3e;
+    border: 1px solid var(--border);
     color: var(--muted);
     padding: 10px 20px;
     border-radius: 8px;
@@ -190,14 +215,14 @@
     transition: all 0.25s;
   }
   .tab-btn:hover {
-    border-color: var(--red);
+    border-color: var(--accent);
     color: var(--text);
   }
   .tab-btn.active {
-    background: var(--red);
-    border-color: var(--red);
+    background: var(--accent);
+    border-color: var(--accent);
     color: var(--white);
-    box-shadow: 0 4px 15px rgba(192,57,43,0.4);
+    box-shadow: 0 4px 15px rgba(37,99,235,0.35);
   }
 
   .news-section {
@@ -215,8 +240,8 @@
   /* ===== HEADLINE CARD ===== */
   .headline-card {
     background: linear-gradient(135deg, var(--dark2), var(--dark3));
-    border: 1px solid #2a2a3e;
-    border-right: 4px solid var(--red);
+    border: 1px solid var(--border);
+    border-right: 4px solid var(--accent);
     border-radius: 12px;
     padding: 28px;
     margin-bottom: 20px;
@@ -226,18 +251,18 @@
   }
   .headline-card:hover {
     transform: translateX(-4px);
-    border-right-color: var(--gold);
+    border-right-color: var(--accent);
   }
   .headline-card::after {
     content: '';
     position: absolute;
     top: 0; right: 0;
     width: 120px; height: 120px;
-    background: radial-gradient(ellipse, rgba(192,57,43,0.06) 0%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(37,99,235,0.35) 0%, transparent 70%);
   }
   .card-category {
     display: inline-block;
-    background: var(--red);
+    background: var(--accent);
     color: var(--white);
     font-size: 11px;
     font-weight: 700;
@@ -256,11 +281,11 @@
   }
   .card-body {
     font-size: 15px;
-    color: #c5c0b5;
+    color: var(--subtext);
     line-height: 1.9;
   }
   .card-body strong {
-    color: var(--gold);
+    color: var(--accent);
   }
   .stat-row {
     display: flex;
@@ -269,8 +294,8 @@
     flex-wrap: wrap;
   }
   .stat-box {
-    background: rgba(192,57,43,0.12);
-    border: 1px solid rgba(192,57,43,0.3);
+    background: rgba(37,99,235,0.35);
+    border: 1px solid rgba(37,99,235,0.35);
     border-radius: 8px;
     padding: 12px 20px;
     text-align: center;
@@ -280,7 +305,7 @@
   .stat-num {
     font-size: 24px;
     font-weight: 900;
-    color: var(--red);
+    color: var(--accent);
     display: block;
   }
   .stat-label {
@@ -321,7 +346,7 @@
   .bar-pct {
     font-size: 13px;
     font-weight: 700;
-    color: var(--gold);
+    color: var(--accent);
     min-width: 40px;
     text-align: left;
     direction: ltr;
@@ -333,7 +358,7 @@
     align-items: flex-start;
     gap: 14px;
     padding: 14px 0;
-    border-bottom: 1px solid #1e1e2a;
+    border-bottom: 1px solid var(--border);
   }
   .danger-icon {
     font-size: 22px;
@@ -349,14 +374,14 @@
   }
   .danger-text p {
     font-size: 14px;
-    color: #b0aaa0;
+    color: var(--subtext);
     line-height: 1.7;
   }
 
   /* VERDICT CARD */
   .verdict {
-    background: linear-gradient(135deg, rgba(192,57,43,0.15), rgba(192,57,43,0.05));
-    border: 2px solid var(--red);
+    background: linear-gradient(135deg, rgba(37,99,235,0.35), rgba(37,99,235,0.35));
+    border: 2px solid var(--accent);
     border-radius: 14px;
     padding: 24px;
     margin-top: 16px;
@@ -365,12 +390,12 @@
   .verdict h3 {
     font-family: 'Amiri', serif;
     font-size: 26px;
-    color: var(--gold);
+    color: var(--accent);
     margin-bottom: 10px;
   }
   .verdict p {
     font-size: 15px;
-    color: #c5c0b5;
+    color: var(--subtext);
     line-height: 1.8;
   }
 
@@ -381,7 +406,7 @@
     margin-top: 16px;
   }
   .compare-table th {
-    background: var(--red);
+    background: var(--accent);
     color: var(--white);
     padding: 12px 16px;
     font-size: 14px;
@@ -391,9 +416,9 @@
   .compare-table td {
     padding: 12px 16px;
     font-size: 14px;
-    border-bottom: 1px solid #2a2a3e;
+    border-bottom: 1px solid var(--border);
     text-align: center;
-    color: #c5c0b5;
+    color: var(--subtext);
   }
   .compare-table tr:nth-child(even) td {
     background: rgba(255,255,255,0.02);
@@ -404,7 +429,7 @@
     text-align: right;
   }
   .bad { color: #e74c3c !important; font-weight: 700; }
-  .warn { color: var(--gold) !important; font-weight: 700; }
+  .warn { color: var(--accent) !important; font-weight: 700; }
   .good { color: #2ecc71 !important; font-weight: 700; }
 
   /* LAW TIMELINE */
@@ -417,12 +442,12 @@
     position: absolute;
     right: 8px; top: 0; bottom: 0;
     width: 2px;
-    background: linear-gradient(to bottom, var(--red), transparent);
+    background: linear-gradient(to bottom, var(--accent), transparent);
   }
   .timeline-item {
     position: relative;
     padding: 16px 30px 16px 0;
-    border-bottom: 1px solid #1e1e2a;
+    border-bottom: 1px solid var(--border);
   }
   .timeline-dot {
     position: absolute;
@@ -430,13 +455,13 @@
     top: 20px;
     width: 16px;
     height: 16px;
-    background: var(--red);
+    background: var(--accent);
     border-radius: 50%;
     border: 3px solid var(--dark);
   }
   .timeline-year {
     font-size: 11px;
-    color: var(--gold);
+    color: var(--accent);
     font-weight: 700;
     letter-spacing: 1px;
     margin-bottom: 6px;
@@ -449,7 +474,7 @@
   }
   .timeline-desc {
     font-size: 14px;
-    color: #b0aaa0;
+    color: var(--subtext);
     line-height: 1.7;
   }
 
@@ -462,7 +487,7 @@
   .sidebar-title {
     font-size: 12px;
     letter-spacing: 2px;
-    color: var(--gold);
+    color: var(--accent);
     font-weight: 700;
     margin-bottom: 16px;
     display: flex;
@@ -477,21 +502,21 @@
   }
   .breaking-item {
     padding: 14px 0;
-    border-bottom: 1px solid #1e1e2a;
+    border-bottom: 1px solid var(--border);
     cursor: pointer;
     transition: all 0.2s;
   }
   .breaking-item:hover { padding-right: 6px; }
   .breaking-item .bi-cat {
     font-size: 10px;
-    color: var(--red);
+    color: var(--accent);
     font-weight: 700;
     letter-spacing: 1px;
     margin-bottom: 6px;
   }
   .breaking-item .bi-text {
     font-size: 14px;
-    color: #c5c0b5;
+    color: var(--subtext);
     line-height: 1.6;
     font-weight: 600;
   }
@@ -504,7 +529,7 @@
   /* POLL */
   .poll-box {
     background: var(--dark3);
-    border: 1px solid #2a2a3e;
+    border: 1px solid var(--border);
     border-radius: 12px;
     padding: 20px;
     margin-top: 24px;
@@ -518,7 +543,7 @@
   }
   .poll-opt {
     background: var(--dark2);
-    border: 1px solid #2a2a3e;
+    border: 1px solid var(--border);
     border-radius: 8px;
     padding: 12px 16px;
     margin-bottom: 8px;
@@ -531,12 +556,12 @@
     transition: all 0.2s;
   }
   .poll-opt:hover {
-    border-color: var(--red);
-    background: rgba(192,57,43,0.08);
+    border-color: var(--accent);
+    background: rgba(37,99,235,0.35);
   }
   .poll-opt.voted {
-    border-color: var(--red);
-    background: rgba(192,57,43,0.15);
+    border-color: var(--accent);
+    background: rgba(37,99,235,0.35);
     color: var(--white);
   }
   .poll-result {
@@ -549,7 +574,7 @@
   }
   .pr-label {
     font-size: 13px;
-    color: #c5c0b5;
+    color: var(--subtext);
     margin-bottom: 4px;
     display: flex;
     justify-content: space-between;
@@ -562,7 +587,7 @@
   }
   .pr-fill {
     height: 100%;
-    background: var(--red);
+    background: var(--accent);
     border-radius: 8px;
     transition: width 1s ease;
   }
@@ -570,7 +595,7 @@
   /* ===== FOOTER ===== */
   .studio-footer {
     background: var(--dark2);
-    border-top: 1px solid #2a2a3e;
+    border-top: 1px solid var(--border);
     padding: 16px 40px;
     display: flex;
     align-items: center;
@@ -580,13 +605,13 @@
   }
   .footer-brand {
     font-weight: 700;
-    color: var(--gold);
+    color: var(--accent);
   }
 
   /* ===== PRESENTER ===== */
   .presenter-bar {
     background: linear-gradient(90deg, var(--dark3), var(--dark2));
-    border: 1px solid #2a2a3e;
+    border: 1px solid var(--border);
     border-radius: 12px;
     padding: 18px 24px;
     margin-bottom: 28px;
@@ -612,12 +637,12 @@
   }
   .presenter-info p {
     font-size: 13px;
-    color: var(--gold);
+    color: var(--accent);
     margin-top: 2px;
   }
   .presenter-text {
     font-size: 14px;
-    color: #c5c0b5;
+    color: var(--subtext);
     line-height: 1.7;
     font-style: italic;
     flex: 1;
@@ -640,7 +665,7 @@
   @media (max-width: 768px) {
     /* Layout */
     .main-content { grid-template-columns: 1fr; }
-    .sidebar { border-top: 1px solid #2a2a3e; order: 2; }
+    .sidebar { border-top: 1px solid var(--border); order: 2; }
     .center-stage { padding: 16px; border-left: none; }
 
     /* Header */
@@ -724,6 +749,16 @@
     .poll-q { font-size: 13px; }
     .poll-opt { font-size: 13px; padding: 10px 12px; }
   }
+  /* ===== THEME TOGGLE ===== */
+  .theme-toggle {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--dark3); border: 1px solid var(--border);
+    border-radius: 20px; padding: 5px 12px;
+    cursor: pointer; font-size: 13px; font-weight: 600;
+    color: var(--text); transition: all 0.25s; user-select: none;
+    white-space: nowrap; font-family: Cairo, sans-serif;
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
@@ -750,7 +785,7 @@
       <p>نشرة خاصة · الفيب والصحة العامة</p>
     </div>
   </div>
-  <div class="live-badge">
+  <div class="live-badge" id="_livebadge_">
     <div class="live-dot"></div>
     مباشر
   </div>
@@ -761,18 +796,6 @@
 <div class="main-content">
   <!-- CENTER -->
   <div class="center-stage">
-
-    <!-- PRESENTER -->
-    <div class="presenter-bar">
-      <div class="presenter-avatar">🎙️</div>
-      <div class="presenter-info">
-        <h3>المراسل الخاص</h3>
-        <p>نشرة أخبار · الفيب في المغرب</p>
-      </div>
-      <div class="presenter-text">
-        "أيها المشاهدون، في نشرتنا الخاصة اليوم نستعرض حقيقة الفيب من جميع جوانبها — الصحية والقانونية والاجتماعية — بالأرقام والوقائع."
-      </div>
-    </div>
 
     <!-- TABS -->
     <div class="section-tabs">
@@ -1075,7 +1098,7 @@
 
     <div style="margin-top:20px;">
       <div class="sidebar-title">حقيقة اليوم</div>
-      <div style="background:rgba(192,57,43,0.1); border:1px solid rgba(192,57,43,0.3); border-radius:10px; padding:16px; font-size:14px; color:#c5c0b5; line-height:1.8;">
+      <div style="background:rgba(37,99,235,0.35); border:1px solid rgba(37,99,235,0.35); border-radius:10px; padding:16px; font-size:14px; color:#c5c0b5; line-height:1.8;">
         💡 <strong style="color:var(--gold);">هل تعلم؟</strong><br>
         جهاز فيب واحد قد يحتوي على نفس كمية النيكوتين الموجودة في <strong style="color:#e74c3c;">علبة سجائر كاملة</strong> أو أكثر.
       </div>
@@ -1084,49 +1107,49 @@
 </div>
 
 <!-- SOURCES -->
-<div class="sources-section" style="background:var(--dark2); border-top:1px solid #2a2a3e; padding:30px 40px;">
+<div class="sources-section" style="background:var(--dark2); border-top:1px solid var(--border); padding:30px 40px;">
   <div style="max-width:900px; margin:0 auto;">
     <div style="font-size:12px; letter-spacing:2px; color:var(--gold); font-weight:700; margin-bottom:20px;">📚 المصادر العلمية والمراجع</div>
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:14px;">
 
-      <div style="background:var(--dark3); border:1px solid #2a2a3e; border-right:3px solid var(--red); border-radius:10px; padding:14px 18px;">
+      <div style="background:var(--dark3); border:1px solid var(--border); border-right:3px solid var(--accent); border-radius:10px; padding:14px 18px;">
         <div style="font-size:11px; color:var(--gold); font-weight:700; margin-bottom:6px;">🌍 منظمة الصحة العالمية</div>
         <div style="font-size:13px; color:#c5c0b5; line-height:1.7;">تقرير WHO حول السجائر الإلكترونية وأضرارها على الصحة العامة — 2023</div>
         <div style="font-size:11px; color:var(--muted); margin-top:6px; direction:ltr;">who.int/tobacco/e-cigarettes</div>
       </div>
 
-      <div style="background:var(--dark3); border:1px solid #2a2a3e; border-right:3px solid var(--red); border-radius:10px; padding:14px 18px;">
+      <div style="background:var(--dark3); border:1px solid var(--border); border-right:3px solid var(--accent); border-radius:10px; padding:14px 18px;">
         <div style="font-size:11px; color:var(--gold); font-weight:700; margin-bottom:6px;">🇺🇸 مراكز السيطرة على الأمراض (CDC)</div>
         <div style="font-size:13px; color:#c5c0b5; line-height:1.7;">إحصائيات استخدام الفيب عند المراهقين وبيانات مرض EVALI — 2024</div>
         <div style="font-size:11px; color:var(--muted); margin-top:6px; direction:ltr;">cdc.gov/tobacco/e-cigarettes</div>
       </div>
 
-      <div style="background:var(--dark3); border:1px solid #2a2a3e; border-right:3px solid var(--red); border-radius:10px; padding:14px 18px;">
+      <div style="background:var(--dark3); border:1px solid var(--border); border-right:3px solid var(--accent); border-radius:10px; padding:14px 18px;">
         <div style="font-size:11px; color:var(--gold); font-weight:700; margin-bottom:6px;">📖 مجلة Lancet الطبية</div>
         <div style="font-size:13px; color:#c5c0b5; line-height:1.7;">دراسة حول تأثير النيكوتين على دماغ المراهقين ومخاطر الإدمان المبكر</div>
         <div style="font-size:11px; color:var(--muted); margin-top:6px; direction:ltr;">thelancet.com — Vol. 401, 2023</div>
       </div>
 
-      <div style="background:var(--dark3); border:1px solid #2a2a3e; border-right:3px solid var(--red); border-radius:10px; padding:14px 18px;">
+      <div style="background:var(--dark3); border:1px solid var(--border); border-right:3px solid var(--accent); border-radius:10px; padding:14px 18px;">
         <div style="font-size:11px; color:var(--gold); font-weight:700; margin-bottom:6px;">🫁 المعهد الوطني الأمريكي لأبحاث السرطان</div>
         <div style="font-size:13px; color:#c5c0b5; line-height:1.7;">تقرير حول المواد الكيميائية الموجودة في بخار الفيب والمواد المسرطنة</div>
         <div style="font-size:11px; color:var(--muted); margin-top:6px; direction:ltr;">cancer.gov/e-cigarettes-research</div>
       </div>
 
-      <div style="background:var(--dark3); border:1px solid #2a2a3e; border-right:3px solid var(--red); border-radius:10px; padding:14px 18px;">
+      <div style="background:var(--dark3); border:1px solid var(--border); border-right:3px solid var(--accent); border-radius:10px; padding:14px 18px;">
         <div style="font-size:11px; color:var(--gold); font-weight:700; margin-bottom:6px;">🇲🇦 وزارة الصحة المغربية</div>
         <div style="font-size:13px; color:#c5c0b5; line-height:1.7;">تقرير الوضع الصحي حول منتجات التبغ والنيكوتين في المغرب — 2023</div>
         <div style="font-size:11px; color:var(--muted); margin-top:6px; direction:ltr;">sante.gov.ma</div>
       </div>
 
-      <div style="background:var(--dark3); border:1px solid #2a2a3e; border-right:3px solid var(--red); border-radius:10px; padding:14px 18px;">
+      <div style="background:var(--dark3); border:1px solid var(--border); border-right:3px solid var(--accent); border-radius:10px; padding:14px 18px;">
         <div style="font-size:11px; color:var(--gold); font-weight:700; margin-bottom:6px;">📊 Journal of American Medical Association</div>
         <div style="font-size:13px; color:#c5c0b5; line-height:1.7;">مقارنة علمية بين أضرار السيجارة الإلكترونية والتقليدية على الجهاز القلبي الوعائي</div>
         <div style="font-size:11px; color:var(--muted); margin-top:6px; direction:ltr;">jamanetwork.com — JAMA 2023</div>
       </div>
 
     </div>
-    <div style="margin-top:16px; font-size:12px; color:var(--muted); text-align:center; padding-top:12px; border-top:1px solid #2a2a3e;">
+    <div style="margin-top:16px; font-size:12px; color:var(--muted); text-align:center; padding-top:12px; border-top:1px solid var(--border);">
       ⚠️ جميع الإحصائيات والمعلومات الواردة في هذا التقرير مستندة إلى مصادر علمية معتمدة دولياً
     </div>
   </div>
@@ -1179,6 +1202,24 @@
         document.getElementById(id).style.width = pcts[i] + '%';
       });
     }, 100);
+  }
+
+  // Theme toggle
+  const _html = document.documentElement;
+  let _isDark = true;
+  function toggleTheme() {
+    _isDark = !_isDark;
+    _html.setAttribute('data-theme', _isDark ? 'dark' : 'light');
+    document.getElementById('toggleIcon').textContent = _isDark ? '🌙' : '☀️';
+    document.getElementById('toggleLabel').textContent = _isDark ? 'الوضع الفاتح' : 'الوضع الداكن';
+    localStorage.setItem('akram-theme', _isDark ? 'dark' : 'light');
+  }
+  const _saved = localStorage.getItem('akram-theme');
+  if (_saved === 'light') {
+    _isDark = false;
+    _html.setAttribute('data-theme','light');
+    document.getElementById('toggleIcon').textContent = '☀️';
+    document.getElementById('toggleLabel').textContent = 'الوضع الداكن';
   }
 </script>
 </body>
